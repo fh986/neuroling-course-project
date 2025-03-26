@@ -110,7 +110,10 @@
   <div class="wrapper">
   <div class="slide" id="practicetrial">
     <div class="center-container">
-      <p id="practice_word"></p>
+      <div class="cross" id="fixation_cross"></div>
+      <p id="practice_prime">Prime Word</p>
+      <p id="practice_target">Target Word</p>
+      <p id="practice_probe">Probe Word</p>
     </div>
     <p class='fdbck' id="feedback"></p>
   </div>
@@ -158,11 +161,13 @@
 
   <div class="wrapper">
   <div class="slide" id="objecttrial">
-        <div class="center-container">
-            <div class="cross" id="fixation_cross"></div>
-            <p id="target_word">Target Word</p>
-        </div>
+    <div class="center-container">
+      <div class="cross" id="object_cross"></div>
+      <p id="object_prime">Object Prime Word</p>
+      <p id="object_target">Object Target Word</p>
+      <p id="object_probe">Object Probe Word</p>
 
+    </div>
   </div>
   </div>
 
@@ -170,64 +175,62 @@
   <div class="slide"  id="subj_info">
     <div class="cntr">
     <div class="long_form">
-      <div class="subj_info_title">Cuestionario</div>
-      <p class="info" style="margin:0 0 0px 0;"><br>Por favor, conteste a las siguientes preguntas. Las preguntas marcadas con asterisco son obligatorias.
+      <div class="subj_info_title">Questionaire</div>
+      <p class="info" style="margin:0 0 0px 0;"><br>Please answer the following questions. Questions marked with an asterisk are required.
       </p>
 
 
-      <p>Cual es su Prolific ID:*  <input type="text" id="prolific_ID"/></p>
+      <p>Prolific ID:*  <input type="text" id="prolific_ID"/></p>
 
-      <p>Género:*
+      <p>Gender:*
         <select id="gender">
           <label><option value=""/></label>
-          <label><option value="Male"/>Masculino</label>
-          <label><option value="Female"/>Feminino</label>
-          <label><option value="Nonbinary"/>No binarie</label>
-          <label><option value="Other"/>Otro</label>
+          <label><option value="Male"/>Male</label>
+          <label><option value="Female"/>Female</label>
+          <label><option value="Nonbinary"/>Nonbinary</label>
+          <label><option value="Other"/>Other</label>
         </select>
       </p>
 
-      <p>Edad:* <input type="text" id="age"/></p>
+      <p>Age:* <input type="text" id="age"/></p>
 
-      <p>Por favor indique su nivel más alto de educación (o la aproximación Estado Unidense equivalente a un título obtenido en otro país):*
+      <p>Please indicate your highest level of educaation:*
         <select id="education">
           <label><option value="-1"/></label>
-          <label><option value="0"/>Menos que escuela secundaria</label>
-          <label><option value="1"/>Escuela secundaria/preparatoria</label>
-          <label><option value="2"/>Algo de Universidad</label>
-          <label><option value="3"/>Universidad</label>
-          <label><option value="4"/>Algo de Escuela Post-Graduado</label>
+          <label><option value="0"/>Less than high school</label>
+          <label><option value="1"/>High school</label>
+          <label><option value="2"/>Some years of university</label>
+          <label><option value="3"/>Bachelor's degree</label>
+          <label><option value="4"/>Graduate degree</label>
         </select>
       </p>
 
 
-      <p>¿Ud. ha tenido un problema de visión durante el estudio?* </p>
+      <p>Do you have any vision problems?* </p>
       <label><input type="radio"  name="assess" value="No"/>No</label>
-      <label><input type="radio"  name="assess" value="Yes"/>Sí</label>
+      <label><input type="radio"  name="assess" value="Yes"/>Yes</label>
 
       <br> <br>
-      <p>Por favor indique el número de años y meses que Ud. pasó en cada ambiente lingüístico:*</p>
-      <p>Un país donde Español es hablado : <input type="text" id="country"/></p>
-      <p>Una familia donde Español es hablado : <input type="text" id="family"/></p>
-      <p>Una escuela y/o ambiente de trabajo donde Español es hablado : <input type="text" id="schoolwork"/></p>
+      <p>Please indicate the number of years and months you spent in each linguistic environment:*</p>
+      <p>A country where Chinese is spoken: <input type="text" id="country"/></p>
+      <p>A family where Chinese is spoken: <input type="text" id="family"/></p>
+      <p>A school/work environment where Chinese is spoken: <input type="text" id="schoolwork"/></p>
       <br> <br>
 
-      <p>Por favor indique todos los idiomas que conozca en orden de adquisición (su idioma materno primero):* <input type="text" id="otherLanguage"/></p>
-
-      <p>Por favor indique las culturas con las cuales Ud. se identifica (por ejemplo los Estados Unidos y México):* <input type="text" id="culture"/></p>
+      <p>Please list all language you know in order of acquisition (your native language first):* <input type="text" id="otherLanguage"/></p>
 
 
-      <p>¿Ud. ha encontrado algun problema con el estudio?</p>
+      <p>Have you encountered any problems with the study?</p>
       <textarea id="problems" rows="2" cols="50"></textarea>
 
-      <p>¿Tiene comentarios sobre el estudio? </p>
+      <p>Do you have any comments on the study? </p>
       <textarea id="comments" rows="3" cols="50"></textarea>
       <br/>
 
-      <p class="err2" style="color:red">Por favor responde a las preguntas obligatorias.</p>
+      <p class="err2" style="color:red">Please answer the mandatory questions.</p>
 
       <br>
-      <button onclick="_s.submit()">Envíar</button>
+      <button onclick="_s.submit()">Submit</button>
       <br><br>
         </div>
           </div>
@@ -237,7 +240,7 @@
   <div class="wrapper">
   <div id="thanks" class="slide js" >
     <div class="cntr">
-      <p  class="big">¡Gracias!</p>
+      <p  class="big">Thank you!</p>
     </div>
 
   </div>

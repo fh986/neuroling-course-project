@@ -13,8 +13,11 @@ If you want any of these times to differ for each trial, turn this into a functi
 and then call on the function in the script below
 */
 
-fixationCrossTime = 300
-isiTime = 400
+fixationCrossTime1 = 300
+primeTime = 100
+targetTime = 500
+fixationCrossTime2 = 800
+
 crossStimTime = 300
 stimCrossTime = 0
 
@@ -86,102 +89,107 @@ function make_slides(f) {
      }
   });
 
-  // practice slides:
-  slides.practicetrial = slide({
-    name: "practicetrial",
-    present: exp.prac_stims,
-    present_handle: function(stim) {
-        // hide feedback text
-        $("#feedback").hide();
-        $("#feedback").css("color", "rgb(255, 150, 159)");
+// practice slides:
+slides.practicetrial = slide({
+  name: "practicetrial",
+  present: exp.prac_stims,
+  present_handle: function(stim) {
+      // hide feedback text
+      $("#feedback").hide();
+      $("#feedback").css("color", "rgb(255, 150, 159)");
 
-        document.onkeypress = null;
+      $("#practice_prime").hide();
+      $("#practice_target").hide();
+      $("#practice_probe").hide();
 
-        this.stim = stim;
-        this.trial_start = Date.now();
-        this.processingKey = true;
+      $("#fixation_cross").show();
+
+      console.log(stim);
+      this.trial_start = Date.now();
+      this.stim = stim;
+      console.log(this.stim);
+
+      this.correct_answer = Math.random() < 0.5 ? 1 : 2;
+
       
-        // Step 1: Show fixation cross for 300 ms
-        $("#target_word").hide();
+
+      setTimeout(() => {
+        // after fixationCrossTime1 (presenting fixation cross for a period of time),
+        // hide fixation cross, show prime stimulus
+        $("#fixation_cross").hide();
+        // show the stim
+        $("#practice_prime").html(this.stim.prime);
+        $("#practice_prime").show();
+      }, fixationCrossTime1);
+
+      setTimeout(() => {
+        // after an additional time for prime presentation,
+        // hide prime, present target
+        $("#practice_prime").hide();
+        $("#practice_target").html(this.stim.target);
+        $("#practice_target").show();
+      }, fixationCrossTime1 + primeTime);
+
+
+      setTimeout(() => {
+        // after target presentation,
+        // hide target, present fixation cross
         $("#fixation_cross").show();
-      
-        setTimeout(() => {
-          // Step 2: Show first stimulus for 300 ms
-          $("#fixation_cross").hide();
-          $("#target_word").html(this.stim.item); // first stimulus
-          $("#target_word").show();
-      
-          setTimeout(() => {
-            // Step 3: Blank screen for 400 ms
-            $("#target_word").hide();
-      
-            setTimeout(() => {
-              // Step 4: Show second stimulus for 300 ms
-              $("#target_word").html(this.stim.item); // second stimulus
-              $("#target_word").show();
-      
-              setTimeout(() => {
-                // Step 5: Blank screen for 400 ms
-                $("#target_word").hide();
-      
-                setTimeout(() => {
-                  // Step 6: Show third stimulus (target) and wait for keypress
-                  $("#target_word").html(this.stim.item); // third stimulus
-                  $("#target_word").show();
-                  this.processingKey = false;
-      
-                }, 400); // wait before showing third stimulus
-      
-              }, 300); // duration of second stimulus
-      
-            }, 400); // blank after first stimulus
-      
-          }, 300); // duration of first stimulus
-      
-        }, 300); // fixation duration
-      
-        // Flag to track if correct key has been pressed
-        let correctKeyPressed = false;
+        $("#practice_target").hide();
+      }, fixationCrossTime1 + primeTime + targetTime);
 
-        // define what to do when any key is pressed
-        document.onkeypress = (e) => {
-            if (!correctKeyPressed) {
-              // Check if correct key has not been pressed yet
-              checkKey.call(this, e);
-            }
-        };
+      setTimeout(() => {
+        // after ISI (fixationCrossTime2),
+        // hide cross, present probe
+        $("#fixation_cross").hide();
+        this.probeContent = this.correct_answer === 1 ? this.stim.prime : this.stim.target;
+        $("#practice_probe").html(this.probeContent);
+        $("#practice_probe").show();
+      }, fixationCrossTime1 + primeTime + targetTime + fixationCrossTime2);
 
-        // function that checks whether a valid key has been pressed
-        // 102 = f (fake word)
-        // 106 = j (real word)
-        function checkKey(e) {
-            e = e || window.event;
-            console.log(e);
 
-            // Show feedback if no correct key was pressed
-            if (e.keyCode != 102 && e.keyCode != 106) {
-                $("#feedback").show();
-                $("#feedback").html("Please press either 1 or 2");
-            } // Show feedback if incorrect key was pressed
-            else if (e.keyCode == 102 && this.stim.answer == 1) {
-                $("#feedback").show();
-                $("#feedback").html(this.stim.word + "matches the first character. You should press 1");
-            } // Show feedback if incorrect key was pressed
-            else if (e.keyCode == 106 && this.stim.answer == 2) {
-                $("#feedback").show();
-                $("#feedback").html(this.stim.word + "matches the second character. You should press 2");
-            } // Show feedback if correct key was pressed
-            else if (e.keyCode == 102 || e.keyCode == 106) {
-                console.log(e.key);
-                $("#feedback").show();
-                $("#feedback").html("Correct!");
-                $("#feedback").css("color", "rgb(225, 255, 207)");
-                correctKeyPressed = true; // Set flag to true after correct key is pressed
-                _s.button(e.key);
-                console.log(e.keyCode);
-            }
-        }
-    },
+      // Flag to track if correct key has been pressed
+      let correctKeyPressed = false;
+
+      // define what to do when any key is pressed
+      document.onkeypress = (e) => {
+          if (!correctKeyPressed) {
+            // Check if correct key has not been pressed yet
+            checkKey.call(this, e);
+          }
+      };
+
+      // function that checks whether a valid key has been pressed
+      // 49 = "1" (matched the first character)
+      // 50 = "2" (matched the second character)
+      function checkKey(e) {
+          e = e || window.event;
+          console.log(e);
+
+          // Show feedback if no correct key was pressed
+          if (e.keyCode != 49 && e.keyCode != 50) {
+              $("#feedback").show();
+              $("#feedback").html("Please press 1 or 2");
+          } // Show feedback if incorrect key was pressed
+          else if (e.keyCode == 50 && this.correct_answer == 1) {
+              $("#feedback").show();
+              $("#feedback").html("The last character matched the first one. You should press 1");
+          } // Show feedback if incorrect key was pressed
+          else if (e.keyCode == 49 && this.correct_answer == 2) {
+              $("#feedback").show();
+              $("#feedback").html("The last character matched the second one. You should press 2.");
+          } // Show feedback if correct key was pressed
+          else if (e.keyCode == 49 || e.keyCode == 50) {
+              console.log(e.key);
+              $("#feedback").show();
+              $("#feedback").html("Correct!");
+              $("#feedback").css("color", "rgb(225, 255, 207)");
+              correctKeyPressed = true; // Set flag to true after correct key is pressed
+              _s.button(e.key);
+              console.log(e.keyCode);
+          }
+      }
+  },
 
     // After each practice stim, move onto the next one with a 1000 ms delay
     button: function(response) {
@@ -226,37 +234,56 @@ function make_slides(f) {
       // Remove any existing keypress handlers at start of each trial to avoid multiple handlers
       document.onkeypress = null;
 
-      // present fixation cross
-      $("#target_word").hide();
-      $("#fixation_cross").show();
+      // hide all objects
+      $("#object_cross").hide();
+      $("#object_prime").hide();
+      $("#object_target").hide();
+      $("#object_probe").hide();
 
       // set the new stim
       console.log(exp.phase);
-    	this.trial_start = Date.now();
+      this.trial_start = Date.now();
       this.stim = stim;
-	    console.log(this.stim);
-      $("#target_word").html(this.stim.item);
+      console.log(this.stim);
+      this.correct_answer = Math.random() < 0.5 ? 1 : 2;
 
-      // After set amount of time, hide fixation cross
+      // show the fixation cross at the beginning of the trial
+      $("#object_cross").show();
+
       setTimeout(() => {
-        $("#fixation_cross").hide();
-      }, fixationCrossTime);
+        // after initial period, hide fixation cross, 
+        // present prime stimulus
+        $("#object_cross").hide();
+        $("#object_prime").html(this.stim.prime);
+        $("#object_prime").show();
+      }, fixationCrossTime1);
 
-      // // after set amount of time, show the stim
-      // setTimeout(() => {
-      //   $("#target_word").show();
-      // }, fixationCrossTime + crossStimTime);
-
-      this.trial_ISI = ISI();
-
-      console.log(this.trial_ISI)
-
-      // after set amount of time, show the stim
       setTimeout(() => {
-        $("#target_word").show();
+        // after presenting prime stimulus,
+        // hide prime, present target
+        $("#object_prime").hide();
+        $("#object_target").html(this.stim.target);
+        $("#object_target").show();
+      }, fixationCrossTime1 + primeTime);
+
+
+      setTimeout(() => {
+        // after presenting target, 
+        // hide target, present fixation cross
+        $("#object_target").hide();
+        $("#object_cross").show();
+      }, fixationCrossTime1 + primeTime + targetTime);
+
+      setTimeout(() => {
+        // after ISI, 
+        // hide fixation cross, present probe
+        $("#object_cross").hide();
+        this.probeContent = this.correct_answer === 1 ? this.stim.prime : this.stim.target;
+        $("#object_probe").html(this.probeContent);
+        $("#object_probe").show();
         // Tracker to see if a keypress has been processed (to prevent multiple button presses stacking up)
         this.processingKey = false;
-      }, this.trial_ISI);
+      }, fixationCrossTime1 + primeTime + targetTime + fixationCrossTime2);
 
       // Tracker to see if a keypress has been processed (to prevent multiple button presses stacking up)
       this.processingKey = true;
@@ -266,28 +293,29 @@ function make_slides(f) {
       };
 
       /*
-      Takes in keypress event 'e' and cehcks whether it is one of the
+      Takes in keypress event 'e' and checks whether it is one of the
       key presses allowed in the experiment. If so, pass it to the button function,
       if not, return to above function and wait for next keypress.
 
       Key codes:
-      102 = f
-      106 = j
+      49 = "1"
+      50 = "2"
       */
       function checkKey(e) {
 
         e = e || window.event;
         console.log(e);
-        // 102 = f
-        // 106 = j
-        if (e.keyCode == 102 || e.keyCode == 106) {
+        // 49 = "1"
+        // 50 = "2"
+        if (e.keyCode == 49 || e.keyCode == 50) {
 
           // update percent correct for participant feedback
+          // NOTE: edit "target" "distractor" for either 1 or 2
           exp.feedback_numtrials += 1;
-          if (this.stim.trial_type == "target" && e.keyCode ==106) {
+          if (this.correct_answer == 1 && e.keyCode ==49) {
             exp.feedback_numcorrect +=1
           }
-          else if (this.stim.trial_type == "distractor" && e.keyCode == 102) {
+          else if (this.correct_answer == 2 && e.keyCode == 50) {
             exp.feedback_numcorrect +=1
           }
 
@@ -300,7 +328,7 @@ function make_slides(f) {
 
   	button : function(response) {
 
-      // Prevent processing if already in progress (prevents participants from just clickign the j button like crazy and stacking responses)
+      // Prevent processing if already in progress (prevents participants from just clicking the button like crazy and stacking responses)
       if (this.processingKey) return;
 
       // Set the processing key to true in order to prevent further processing
@@ -309,10 +337,15 @@ function make_slides(f) {
       // call on log responses function to save the response
       this.log_responses(response);
 
+      console.log("Current phase:", exp.phase);
+
+
       if (exp.pause_trials.includes(exp.phase)) {
 
         // hide target word
-        $("#target_word").hide();
+        $("#object_prime").hide();
+        $("#object_target").hide();
+        $("#object_probe").hide();
 
         // reseet flag after trial finishes
         this.processingKey = false;
@@ -328,11 +361,11 @@ function make_slides(f) {
     log_responses : function(response) {
           exp.data_trials.push({
             "slide_number_in_experiment" : exp.phase,
-            "word": this.stim.item,
-            "lemma": this.stim.lemma,
+            "prime": this.stim.prime,
+            "target": this.stim.target,
+            "probeContent": this.probeContent,
+            "correct_answer": this.correct_answer,
             "trial_type": this.stim.trial_type,
-            "IC": this.stim.IC,
-            "suffix": this.stim.suffix,
             "response": response,
             "rt" : Date.now() - _s.trial_start
           });
@@ -420,17 +453,13 @@ function init() {
   function makeTargetStim(i) {
     //get item
     var item = items_target[i];
-    var item_id = item.stimulus;
-    var item_lemma = item.lemma;
-    var item_IC = item.IC;
-    var item_suffix = item.suffix;
+    var item_prime = item.prime;
+    var item_target = item.target;
     var item_trial_type = item.trial_type;
 
     return {
-	  "item": item_id,
-    "lemma": item_lemma,
-    "IC": item_IC,
-    "suffix": item_suffix,
+	  "prime": item_prime,
+    "target": item_target,
     "trial_type": item_trial_type
     }
   }
@@ -449,12 +478,15 @@ function init() {
   exp.all_stims = _.shuffle(exp.all_stims);
 
 
-  exp.prac_stims = [{'word': "fumo", 'answer': "1"}, {'word': "rudaba", 'answer': "0"}, {'word': "resultó", 'answer': "1"}, {'word': "remoptaste", 'answer': "0"}]
+  exp.prac_stims = [{'prime': "花", 'target': "草"}, 
+    {'prime': "手", 'target': "腳"}, 
+    {'prime': "海", 'target': "梅"}, 
+    {'prime': "樹", 'target': "村"}]
 
   /*
   exp.phase number (i.e. trial number + ?) that indicates when the break should occur. his must match the total number of breaks for the script to work
   */
-  exp.pause_trials = [200, 400, 600, 800, 1000, 1200] //136, 265, 394, 523
+  exp.pause_trials = [6, 8]//[200, 400, 600, 800, 1000, 1200] //136, 265, 394, 523
 
   exp.trials = [];
   exp.catch_trials = [];
@@ -477,11 +509,11 @@ function init() {
 
   //blocks of the experiment:
   exp.structure=["consent", "instructions_1", "practicetrial", "beginpage",
-  'objecttrial', 'break',
-  'objecttrial', 'break',
-  'objecttrial', 'break',
-  'objecttrial', 'break',
-  'objecttrial', 'break',
+  // 'objecttrial', 'break',
+  // 'objecttrial', 'break',
+  // 'objecttrial', 'break',
+  // 'objecttrial', 'break',
+  // 'objecttrial', 'break',
   'objecttrial', 'break',
   'objecttrial', 'subj_info', 'thanks']; // "objecttrial1", "break1",
 
@@ -494,7 +526,7 @@ function init() {
   //make corresponding slides:
   exp.slides = make_slides(exp);
 
-  exp.nQs = 1404;
+  exp.nQs = 4//1404;
   // utils.get_exp_length(); //this does not work if there are stacks of stims (but does work for an experiment with this structure)
                     //relies on structure and slides being defined
   $(".nQs").html(exp.nQs);
