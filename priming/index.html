@@ -47,7 +47,7 @@
 
   <div class="slide" id="consent" >
     <br>
-    <p>En este estudio verá varias palabras. Tendrá que responder si las palabras son reales o no, es decir, si pertenecen al idioma español o no. El estudio durará aproximadamente <span class='studyDuration'></span> minutos. Si quiere participar por favor lea la autorización y pulse el botón “estoy de acuerdo”. </p>
+    <p>This is a study about reading Chinese characters. It will take 20 minutes. Please read the consent form that follows. When you are ready, please click "start" to begin.</p>
 
     <div style="font-size:15">
       <div class="cntr">
@@ -67,7 +67,7 @@
     </div>
 
     <div class="cntr">
-      <button id="consent_button" type="button" >Estoy de acuerdo</button>
+      <button id="consent_button" type="button" >Start</button>
       <br><br>
     </div>
   </div>
@@ -79,26 +79,28 @@
     </div>
 
 <!--     <p id="cocolab">Stanford ALPS Lab</p> -->
-      <p id="instruct-text"> Va a ver varias palabras en los próximos ~<span class='studyDuration'></span> minutos. <br> <br>
-        Cuando vea cada palabra, lo más rápido y preciso como le sea posible decida si la palabra es: <br>
+      <p id="instruct-text"> This study is going to take ~20 minutes. <br> <br>
+        You are going to read Chinese characters and respond to them. On each trial, you will first see two characters, one after the other,
+        for example: 花 and 草. Then, you will see one of these characters again (that is, either 花 or 草). 
+        Your task is to decide whether the last character is the same as the first or the second one. That is: <br>
       </p>
       <p id="instruct-text">
         <ul>
-          <li> <b> Una palabra real </b></li>
-          <p> Una palabra real en Español <br>
-          <b> Pulse la tecla J</b> usando el dedo índice derecho </p>
-          <li> <b> Una palabra sin sentido </b> </li>
-          <p> Cualquier palabra que no es una palabra real en Español (puede parecer una palabra real como “escuelo” o puede no parecer a ninguna palabra real como “macepero”) <br>
-          <b> Pulse la tecla F</b> con el dedo índice izquierdo </p>
+          <li> <b> If you see 花 - 草 - 花 </b></li>
+          <p> The last character matches the first one <br>
+          <b> Please press 1</b> to indicate that it matches the first character </p>
+          <li> <b> If you see 花 - 草 - 草 </b> </li>
+          <p> The last character matches the second one <br>
+          <b> Please press 2</b> to indicate that it matches the second character </p>
         </ul>
     </p>
     <p id="instruct-text">
-      Por favor coloque los dedos índices en las teclas en todo momento, y utilice la mano izquierda para la tecla F y la mano derecha para la tecla J. Es muy importante que intente responder lo más rápido y preciso que pueda. Por favor complete el experimento en una sesión (aproximadamente <span class='studyDuration'></span> minutos); no empiece el experimento si no tiene suficiente tiempo para completarlo. Tendrá seis pausas para descansar un poco. <br><br> </p>
+      Remember that the last character will always be the same as either the first or the second character you saw. Please respond as quickly as you can while ensuring accuracy!<br><br> </p>
 
     <div class="cntr">
-      <p> Empezaremos con unos ejemplos de práctica! <br> </p>
+      <p> Please click "Start Practice" to try some practice trials! <br> </p>
 
-      <button id="start_practice" type="button" >Empezar</button>
+      <button id="start_practice" type="button" >Start Practice</button>
       <br> <br>
     </div>
 
@@ -118,7 +120,7 @@
   <div class="slide" id="break">
     <div id="break_slide">
       <div class="cntr" >
-        <p style="font-size:30"><b>Pausa!</b></p>
+        <p style="font-size:30"><b>Pause!</b></p>
       </div>
 
       <div class="cntr" >
@@ -126,7 +128,7 @@
       </div>
 
       <div class="cntr">
-        <button id="continue_button" type="button" >Continuar</button>
+        <button id="continue_button" type="button" >Continue</button>
       </div>
     </div>
   </div>
@@ -135,21 +137,20 @@
   <div class="wrapper">
   <div class="slide" id="beginpage">
     <div class="cntr">
-      <p style="font-size:40"><b>Estudio</b></p>
+      <p style="font-size:40"><b>Full Experiment</b></p>
     </div>
 
-    <p>El estudio empezará ahora.</p>
+    <p>You are about to begin the full experiment. You are going to see trials that are exactly like those on the practice.</p>
 
-    <p>Para participar de manera eficiente, por favor:</p>
+    <p>Please remember:</p>
     <ul>
-      <li> Maximice la ventana </li>
-      <li> Apague su teléfono/notificaciones/música </li>
-      <li> Evite distracciones </li>
-      <li> Evite pausas no programadas </li>
+      <li> If the last character matches the first one, press 1. </li>
+      <li> If the last character matches the second one, press 2. </li>
+      <li> Please respond as quickly as you can while ensuring accuracy. </li>
     </ul>
 
     <div class="cntr">
-      <button id="start_button" type="button" >Empezar</button>
+      <button id="start_button" type="button" >Start</button>
       <br><br>
     </div>
   </div>
@@ -243,7 +244,7 @@
   </div>
 
   <div class="progress">
-    <span>Progreso:</span>
+    <span>Progress:</span>
     <div class="bar-wrapper">
       <div class="bar" width="0%">
       </div>

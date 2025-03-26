@@ -14,6 +14,7 @@ and then call on the function in the script below
 */
 
 fixationCrossTime = 300
+isiTime = 400
 crossStimTime = 300
 stimCrossTime = 0
 
@@ -94,15 +95,51 @@ function make_slides(f) {
         $("#feedback").hide();
         $("#feedback").css("color", "rgb(255, 150, 159)");
 
-        console.log(stim);
-        this.trial_start = Date.now();
+        document.onkeypress = null;
 
         this.stim = stim;
-        console.log(this.stim);
-
-        // show the stim
-        $("#practice_word").html(this.stim.word);
-
+        this.trial_start = Date.now();
+        this.processingKey = true;
+      
+        // Step 1: Show fixation cross for 300 ms
+        $("#target_word").hide();
+        $("#fixation_cross").show();
+      
+        setTimeout(() => {
+          // Step 2: Show first stimulus for 300 ms
+          $("#fixation_cross").hide();
+          $("#target_word").html(this.stim.item); // first stimulus
+          $("#target_word").show();
+      
+          setTimeout(() => {
+            // Step 3: Blank screen for 400 ms
+            $("#target_word").hide();
+      
+            setTimeout(() => {
+              // Step 4: Show second stimulus for 300 ms
+              $("#target_word").html(this.stim.item); // second stimulus
+              $("#target_word").show();
+      
+              setTimeout(() => {
+                // Step 5: Blank screen for 400 ms
+                $("#target_word").hide();
+      
+                setTimeout(() => {
+                  // Step 6: Show third stimulus (target) and wait for keypress
+                  $("#target_word").html(this.stim.item); // third stimulus
+                  $("#target_word").show();
+                  this.processingKey = false;
+      
+                }, 400); // wait before showing third stimulus
+      
+              }, 300); // duration of second stimulus
+      
+            }, 400); // blank after first stimulus
+      
+          }, 300); // duration of first stimulus
+      
+        }, 300); // fixation duration
+      
         // Flag to track if correct key has been pressed
         let correctKeyPressed = false;
 
@@ -124,20 +161,20 @@ function make_slides(f) {
             // Show feedback if no correct key was pressed
             if (e.keyCode != 102 && e.keyCode != 106) {
                 $("#feedback").show();
-                $("#feedback").html("Por favor pulse la tecla \'j\' o \'f\'");
+                $("#feedback").html("Please press either 1 or 2");
             } // Show feedback if incorrect key was pressed
             else if (e.keyCode == 102 && this.stim.answer == 1) {
                 $("#feedback").show();
-                $("#feedback").html("¡" + this.stim.word + " es una palabra real! Por favor pulse la tecla \'j\'");
+                $("#feedback").html(this.stim.word + "matches the first character. You should press 1");
             } // Show feedback if incorrect key was pressed
-            else if (e.keyCode == 106 && this.stim.answer == 0) {
+            else if (e.keyCode == 106 && this.stim.answer == 2) {
                 $("#feedback").show();
-                $("#feedback").html("¡" + this.stim.word + " no es una palabra real! Por favor pulse la tecla \'f\'");
+                $("#feedback").html(this.stim.word + "matches the second character. You should press 2");
             } // Show feedback if correct key was pressed
             else if (e.keyCode == 102 || e.keyCode == 106) {
                 console.log(e.key);
                 $("#feedback").show();
-                $("#feedback").html("¡Correcto!");
+                $("#feedback").html("Correct!");
                 $("#feedback").css("color", "rgb(225, 255, 207)");
                 correctKeyPressed = true; // Set flag to true after correct key is pressed
                 _s.button(e.key);
@@ -170,7 +207,7 @@ function make_slides(f) {
 
     // calculate percentage correct in this round
     percentage = Math.round((exp.feedback_numcorrect / exp.feedback_numtrials) * 100);
-    $("#percentage").html("Ha acertado " + percentage + "% de las veces.");
+    $("#percentage").html("You got " + percentage + "% correct.");
    }
   });
 
