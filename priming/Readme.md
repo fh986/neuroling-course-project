@@ -1,6 +1,6 @@
-# Visual Lexical Decision Task
+# Visual Character Matching Task (Chinese Traditional)
 
-The code in this folder is a javascript experiment for a visual lexical decision task. The base code is from the ALPS lab.
+The code in this folder is a javascript experiment for a visual priming matching task. The base code is from the ALPS lab. The codes are edited by Helen Hu and Amira Ramdani as part of a course project for Neurolinguistics. 
 
 To run the code locally, double click the *index.html* file. This should open the experiment on a local browser.
 
