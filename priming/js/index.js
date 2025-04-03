@@ -486,7 +486,7 @@ function init() {
   /*
   exp.phase number (i.e. trial number + ?) that indicates when the break should occur. his must match the total number of breaks for the script to work
   */
-  exp.pause_trials = [6, 8]//[200, 400, 600, 800, 1000, 1200] //136, 265, 394, 523
+  exp.pause_trials = [50, 100, 150]
 
   exp.trials = [];
   exp.catch_trials = [];
