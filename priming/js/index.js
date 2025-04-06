@@ -160,26 +160,26 @@ slides.practicetrial = slide({
       };
 
       // function that checks whether a valid key has been pressed
-      // 49 = "1" (matched the first character)
-      // 50 = "2" (matched the second character)
+      // 102 = f (matched the first character)
+      // 106 = j (matched the second character)
       function checkKey(e) {
           e = e || window.event;
           console.log(e);
 
           // Show feedback if no correct key was pressed
-          if (e.keyCode != 49 && e.keyCode != 50) {
+          if (e.keyCode != 102 && e.keyCode != 106) {
               $("#feedback").show();
-              $("#feedback").html("Please press 1 or 2");
+              $("#feedback").html("請按 'f' 或 'j'");
           } // Show feedback if incorrect key was pressed
-          else if (e.keyCode == 50 && this.correct_answer == 1) {
+          else if (e.keyCode == 106 && this.correct_answer == 1) {
               $("#feedback").show();
-              $("#feedback").html("The last character matched the first one. You should press 1");
+              $("#feedback").html("最後一個字和第一個字相同。請按'f'");
           } // Show feedback if incorrect key was pressed
-          else if (e.keyCode == 49 && this.correct_answer == 2) {
+          else if (e.keyCode == 102 && this.correct_answer == 2) {
               $("#feedback").show();
-              $("#feedback").html("The last character matched the second one. You should press 2.");
+              $("#feedback").html("最後一個字和第二個字相同。請按'j'.");
           } // Show feedback if correct key was pressed
-          else if (e.keyCode == 49 || e.keyCode == 50) {
+          else if (e.keyCode == 102 || e.keyCode == 106) {
               console.log(e.key);
               $("#feedback").show();
               $("#feedback").html("Correct!");
@@ -298,24 +298,24 @@ slides.practicetrial = slide({
       if not, return to above function and wait for next keypress.
 
       Key codes:
-      49 = "1"
-      50 = "2"
+      102 = "f"
+      106 = "j"
       */
       function checkKey(e) {
 
         e = e || window.event;
         console.log(e);
-        // 49 = "1"
-        // 50 = "2"
-        if (e.keyCode == 49 || e.keyCode == 50) {
+        // 102 = "f"
+        // 106 = "j"
+        if (e.keyCode == 102 || e.keyCode == 106) {
 
           // update percent correct for participant feedback
           // NOTE: edit "target" "distractor" for either 1 or 2
           exp.feedback_numtrials += 1;
-          if (this.correct_answer == 1 && e.keyCode ==49) {
+          if (this.correct_answer == 1 && e.keyCode ==102) {
             exp.feedback_numcorrect +=1
           }
-          else if (this.correct_answer == 2 && e.keyCode == 50) {
+          else if (this.correct_answer == 2 && e.keyCode == 106) {
             exp.feedback_numcorrect +=1
           }
 
@@ -526,7 +526,7 @@ function init() {
   //make corresponding slides:
   exp.slides = make_slides(exp);
 
-  exp.nQs = 4//1404;
+  exp.nQs = 200//1404;
   // utils.get_exp_length(); //this does not work if there are stacks of stims (but does work for an experiment with this structure)
                     //relies on structure and slides being defined
   $(".nQs").html(exp.nQs);
