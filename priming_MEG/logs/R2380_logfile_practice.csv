@@ -1,0 +1,5 @@
+﻿participant,stimuli,trialNum,target_type,response,correct,block,reaction_time,trigger,
+R2380,resultó,1,word,2,True,1,1.2782392501831055,1,
+R2380,remopaste,2,non-word,1,True,1,1.532038927078247,2,
+R2380,rudaba,3,non-word,1,True,1,1.2463290691375732,2,
+R2380,fumo,4,word,1,False,1,1.1960551738739014,1,
