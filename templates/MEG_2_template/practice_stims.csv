@@ -1,0 +1,5 @@
+target,target_type,correct_ans,trigger
+fumo,word,2,1
+rudaba,non-word,1,2
+resultó,word,2,1
+remopaste,non-word,1,2
