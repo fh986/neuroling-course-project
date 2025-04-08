@@ -1,68 +1,73 @@
-name: py37
+name: meg #py37
 channels:
   - defaults
 dependencies:
+  - numpy
+  - numba #==0.54.1
+  # - cython
+  - llvmlite
   - pip:
-    - numpy==1.20.0
-    - vtk==9.1.0
-  - appnope=0.1.2=py37hecd8cb5_1001
+    #- numpy==1.20.0
+    #- vtk=9.1.0
+  - vtk
+  - appnope=0.1
   - argcomplete=1.12.3=pyhd3eb1b0_0
-  - argon2-cffi=20.1.0=py37h9ed2024_1
-  - async_generator=1.10=py37h28b3542_0
+  - argon2-cffi=20.1
+  - async_generator
   - attrs=21.2.0=pyhd3eb1b0_0
   - backcall=0.2.0=pyhd3eb1b0_0
   - bleach=4.0.0=pyhd3eb1b0_0
-  - ca-certificates=2021.10.26=hecd8cb5_2
-  - certifi=2021.10.8=py37hecd8cb5_0
-  - cffi=1.14.6=py37h2125817_0
-  - dbus=1.13.18=h18a8e69_0
-  - debugpy=1.5.1=py37he9d5cce_0
+  - ca-certificates
+  - certifi=2021.10.8
+  - cffi=1.14
+  - dbus=1.13
+  - debugpy=1.5
   - defusedxml=0.7.1=pyhd3eb1b0_0
-  - entrypoints=0.3=py37_0
-  - expat=2.4.1=h23ab428_2
-  - gettext=0.21.0=h7535e17_0
-  - glib=2.69.1=hdf23fa2_0
-  - icu=58.2=h0a44026_3
-  - importlib-metadata=4.8.2=py37hecd8cb5_0
+  - entrypoints=0.3
+  - expat=2.4
+  - gettext=0.21
+  - glib=2.69
+  - icu
+  - importlib-metadata=4.8
   - importlib_metadata=4.8.2=hd3eb1b0_0
-  - ipykernel=6.4.1=py37hecd8cb5_1
-  - ipython=7.29.0=py37h01d92e1_0
+  - ipykernel=6.4
+  - ipython=7.29
   - ipython_genutils=0.2.0=pyhd3eb1b0_1
   - ipywidgets=7.6.5=pyhd3eb1b0_1
-  - jedi=0.18.0=py37hecd8cb5_1
+  - jedi=0.18
   - jinja2=3.0.2=pyhd3eb1b0_0
-  - jpeg=9d=h9ed2024_0
+  - jpeg=9
   - jsonschema=3.2.0=pyhd3eb1b0_2
-  - jupyter=1.0.0=py37_7
+  - jupyter=1.0
   - jupyter_client=7.0.6=pyhd3eb1b0_0
   - jupyter_console=6.4.0=pyhd3eb1b0_0
-  - jupyter_core=4.9.1=py37hecd8cb5_0
+  - jupyter_core=4.9
   - jupyterlab_pygments=0.1.2=py_0
   - jupyterlab_widgets=1.0.0=pyhd3eb1b0_1
-  - libcxx=12.0.0=h2f01273_0
-  - libffi=3.3=hb1e8313_2
-  - libiconv=1.16=h1de35cc_0
-  - libpng=1.6.37=ha441bb4_0
-  - libsodium=1.0.18=h1de35cc_0
-  - libxml2=2.9.12=hcdb78fc_0
-  - llvm-openmp=12.0.0=h0dcd299_1
-  - markupsafe=2.0.1=py37h9ed2024_0
+  - libcxx=12.0
+  - libffi=3.3
+  - libiconv=1.16
+  - libpng=1.6
+  - libsodium=1.0
+  - libxml2=2.9
+  - llvm-openmp=12.0
+  - markupsafe=2.0
   - matplotlib-inline=0.1.2=pyhd3eb1b0_2
-  - mistune=0.8.4=py37h1de35cc_0
+  - mistune=0.8
   - nbclient=0.5.3=pyhd3eb1b0_0
-  - nbconvert=6.1.0=py37hecd8cb5_0
+  - nbconvert=6.1
   - nbformat=5.1.3=pyhd3eb1b0_0
-  - ncurses=6.3=hca72f7f_2
+  - ncurses=6.3
   - nest-asyncio=1.5.1=pyhd3eb1b0_0
-  - notebook=6.4.6=py37hecd8cb5_0
-  - openssl=1.1.1l=h9ed2024_0
+  - notebook=6.4
+  - openssl=1.1
   - packaging=21.3=pyhd3eb1b0_0
-  - pandocfilters=1.4.3=py37hecd8cb5_1
+  - pandocfilters=1.4
   - parso=0.8.2=pyhd3eb1b0_0
-  - pcre=8.45=h23ab428_0
+  - pcre=8.45
   - pexpect=4.8.0=pyhd3eb1b0_3
   - pickleshare=0.7.5=pyhd3eb1b0_1003
-  - pip=21.2.2=py37hecd8cb5_0
+  - pip=21.2
   - prometheus_client=0.12.0=pyhd3eb1b0_0
   - prompt-toolkit=3.0.20=pyhd3eb1b0_0
   - prompt_toolkit=3.0.20=hd3eb1b0_0
@@ -70,37 +75,37 @@ dependencies:
   - pycparser=2.21=pyhd3eb1b0_0
   - pygments=2.10.0=pyhd3eb1b0_0
   - pyparsing=3.0.4=pyhd3eb1b0_0
-  - pyqt=5.9.2=py37h655552a_2
-  - pyrsistent=0.18.0=py37hca72f7f_0
-  - python=3.7.11=h88f2d9e_0
+  - pyqt
+  - pyrsistent=0.18
+  - python=3.8
   - python-dateutil=2.8.2=pyhd3eb1b0_0
-  - pyzmq=22.3.0=py37he9d5cce_2
-  - qt=5.9.7=h468cd18_1
+  - pyzmq=22.3
+  - qt
   - qtconsole=5.1.1=pyhd3eb1b0_0
   - qtpy=1.10.0=pyhd3eb1b0_0
-  - readline=8.1=h9ed2024_0
+  - readline=8.1
   - send2trash=1.8.0=pyhd3eb1b0_1
-  - setuptools=58.0.4=py37hecd8cb5_0
-  - sip=4.19.8=py37h0a44026_0
+  - setuptools=58.0
+  - sip=4.19
   - six=1.16.0=pyhd3eb1b0_0
-  - sqlite=3.36.0=hce871da_0
-  - terminado=0.9.4=py37hecd8cb5_0
+  - sqlite=3.36
+  - terminado=0.9
   - testpath=0.5.0=pyhd3eb1b0_0
-  - tk=8.6.11=h7bc2e8c_0
-  - tornado=6.1=py37h9ed2024_0
+  - tk=8.6
+  - tornado=6.1
   - traitlets=5.1.1=pyhd3eb1b0_0
   - typing_extensions=3.10.0.2=pyh06a4308_0
   - wcwidth=0.2.5=pyhd3eb1b0_0
-  - webencodings=0.5.1=py37_1
+  - webencodings=0.5
   - wheel=0.37.0=pyhd3eb1b0_1
-  - widgetsnbextension=3.5.1=py37_0
-  - xz=5.2.5=h1de35cc_0
-  - zeromq=4.3.4=h23ab428_0
+  - widgetsnbextension=3.5
+  - xz=5.2
+  - zeromq=4.3
   - zipp=3.6.0=pyhd3eb1b0_0
-  - zlib=1.2.11=h1de35cc_3
+  - zlib=1.2
   - pip:
-    - numpy==1.20.0
-    - vtk==9.1.0
+    #- numpy==1.20.0
+    #- vtk=9.0.1
     - aiohttp==3.8.1
     - aiosignal==1.2.0
     - appdirs==1.4.4
@@ -125,7 +130,7 @@ dependencies:
     - freetype-py==2.2.0
     - frozenlist==1.2.0
     - future==0.18.2
-    - gevent==21.12.0
+    - gevent
     - gitdb==4.0.9
     - gitpython==3.1.24
     - glfw==2.5.0
@@ -139,10 +144,10 @@ dependencies:
     - json-tricks==3.15.5
     - keyring==23.4.0
     - kiwisolver==1.3.2
-    - llvmlite==0.37.0
+    #- llvmlite==0.37.0
     - macropy3==1.1.0b2
     - matplotlib==3.5.1
-    - mayavi==4.7.4
+    #- mayavi==4.7.4
     - mne==0.24.1
     - moviepy==1.0.3
     - msgpack==1.0.3
@@ -150,7 +155,7 @@ dependencies:
     - multidict==5.2.0
     - networkx==2.6.3
     - nibabel==3.2.1
-    - numba==0.54.1
+    #- numba==0.54.1
     - numexpr==2.8.1
     - openpyxl==3.0.9
     - pandas==1.3.5
@@ -160,12 +165,12 @@ dependencies:
     - proglog==0.1.9
     - psutil==5.9.0
     - psychopy==2021.2.3
-    - psychtoolbox==3.0.18.2
+    #- psychtoolbox==3.0.18.2
     - pyface==7.3.0
     - pyfunctional==1.4.3
     - pygame==2.1.2
     - pyglet==1.5.21
-    - pyo==1.0.4
+    - pyo #==1.0.4
     - pyobjc==8.1
     - pyobjc-core==8.1
     - pyobjc-framework-accounts==8.1
@@ -289,11 +294,11 @@ dependencies:
     - python-gitlab==2.10.1
     - python-vlc==3.0.12118
     - pytz==2021.3
-    - pyyaml==6.0
+    - pyyaml
     - questplus==2019.4
     - requests==2.27.0
     - requests-toolbelt==0.9.1
-    - scikit-learn==1.0.1
+    - scikit-learn
     - scipy==1.7.3
     - seaborn==0.11.2
     - sklearn==0.0
