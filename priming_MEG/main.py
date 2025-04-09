@@ -27,7 +27,7 @@ participant_name = input("participant: ")
 
 simulation_time = time.time()
 debug = True #False
-toggle_diode = True
+toggle_diode = False #True
 send_triggers = True
 simulate_responses = False
 num_blocks = 5
@@ -80,7 +80,7 @@ if not send_triggers: print("TRIGGERS IS SET TO OFF")
 if simulate_responses: print("SIMULATED RESPONSES")
 
 setup_text = '請耐心等待，我們正在準備實驗。請不要按下任何按鈕。'
-instruction_text = "您將會看到一系列繁體中文字。三個字為一組（比如：花-草-花）。若第三個字與第一個相同，請用左手食指按下按鍵。若第三個字與第二個字相同，請用中指按下按鍵。\n\n準備好後，請按任意鍵開始。"
+instruction_text = "您將會看到一系列繁體中文字。三個字為一組（比如：花-草-花）。\n若第三個字與第一個相同，請用左手食指按下按鍵。\n若第三個字與第二個字相同，請用中指按下按鍵。\n\n準備好後，請按任意鍵開始。"
 end_text = '您已完成實驗。在我們進行最後測量時，請保持不動。'
 
 setup_proceed_key = ['s']
@@ -89,16 +89,16 @@ end_proceed_key = ['s', 'q']
 
 """================================Objects=================================="""
 # define monitor.
-
+font_name = 'PingFang TC'
 # create window, stimuli, and photodiode objects
-win = visual.Window(monitor='default', units='pix', fullscr=True, colorSpace='rgb255', color=(127,127,127))
-sentence = visual.TextStim(win, text='', font='Courier New', height = 20, wrapWidth=700, alignText='center', color=(1,1,1))
+win = visual.Window(monitor='default', units='pix', fullscr=False, colorSpace='rgb255', color=(127,127,127))
+sentence = visual.TextStim(win, text='', font=font_name, height = 20, wrapWidth=700, alignText='center', color=(1,1,1))
 fixation = visual.TextStim(win, text='+', color=(1, 1, 1))
 intertrialblank = visual.TextStim(win, text='',color=(127,127,127))
-taskText = visual.TextStim(win, text='', font='Courier New', wrapWidth=700, alignText='center', color=(1, 1, 1))
-endText = visual.TextStim(win=win, text='', font='Courier New', pos=(0, 0), height=18, wrapWidth=700, ori=0.0, color='white', colorSpace='rgb', opacity=1, languageStyle='LTR', depth=0.0);
+taskText = visual.TextStim(win, text='', font=font_name, wrapWidth=700, alignText='center', color=(1, 1, 1))
+endText = visual.TextStim(win=win, text='', font=font_name, pos=(0, 0), height=18, wrapWidth=700, ori=0.0, color='white', colorSpace='rgb', opacity=1, languageStyle='LTR', depth=0.0);
 photodiode = visual.Rect(win, width=57, height=57, pos=[-483,355], fillColor=[255,255,255], fillColorSpace='rgb255') #-483,355
-instructions = visual.TextStim(win,text='', font='Courier New', wrapWidth=700, alignText='center', color=(1,1,1))
+instructions = visual.TextStim(win,text='', font=font_name, wrapWidth=700, alignText='center', color=(1,1,1))
 
 proceed = keyboard.Keyboard()
 response = keyboard.Keyboard()
@@ -116,10 +116,14 @@ delay = 600
 proceed = keyboard.Keyboard()
 
 """================================Timings=================================="""
-frame_time_ms = win.monitorFramePeriod * 1000
 
-fixation_ON_ms = 300
-fixation_OFF_ms = 0
+
+# frame_time_ms = win.monitorFramePeriod * 1000
+# print('---win.monitorFramePeriod: ', win.monitorFramePeriod)
+# print('---frame_time: ', frame_time_ms)
+
+fixation_ON_s = 0.3
+# fixation_OFF_ms = 0
 
 # sent_ON_ms = 300
 # sent_OFF_ms = 300
@@ -155,6 +159,7 @@ for index, row in trials.iterrows():
 trials['trigger'] = trials['trigger'].astype(int)
 trials['correct_resp'] = trials['correct_resp'].astype(int)
 
+# print(trials)
 # Assumes that experiment --> number of trials will be divisible by num_blocks
 if exp_type == 'practice':
 	n_blocks = 1
@@ -213,29 +218,18 @@ def present_text(text='',img='', proceed_keys= ['s','1','2','q']):
 	win.flip()
 	return event.waitKeys(keyList=proceed_keys)
 
-def present_fixation(fixation_time=fixation_ON_ms, fixation_off_time=fixation_OFF_ms,frame_time=frame_time_ms):
 
-	win.callOnFlip(trialClock.reset)
-	fixation.draw()
+def present_fixation(fixation_time=fixation_ON_s):
+    win.callOnFlip(trialClock.reset)
+    fixation.draw()
+    t0 = time.time()
 
-	t0 = time.time()
+    win.flip()  # show fixation
+    core.wait(fixation_time / 1000)  # convert ms to seconds
 
-	total_onscreen_time = int(fixation_time/frame_time)
-	print(total_onscreen_time)
+    stim_time = time.time()
+    print('fixation onscreen time:', str(stim_time - t0))
 
-	for i in range(total_onscreen_time):
-
-		fixation.draw()
-
-		win.flip()
-
-	stim_time = time.time()
-	print('fixation onscreen time:', str(stim_time - t0))
-
-	for i in range(int(fixation_off_time/frame_time)):
-		win.flip()
-
-	t1 = time.time()
 
 
 # Pause slide is entered and exited by pressing 'p'
@@ -252,7 +246,7 @@ def pause_slide():
 	elif response[0] == 'q':
 		core.quit()
 
-def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_diode, frame_time=frame_time_ms):
+def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_diode):
     # === 1. Display the PRIME ===
     print('Prime:', str(trial['prime']).upper())
     sentence.setText(trial['prime'])
@@ -260,8 +254,9 @@ def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_dio
     if toggle_photodiode:
         photodiode.draw()
     win.callOnFlip(sendTrigger, channel='ch165', duration=0.02)  # Trigger for prime
+    print('------------')
     win.flip()
-    core.wait(0.1)  # 100 ms
+    core.wait(0.3)  # 100 ms
 
     # === 2. Display the TARGET ===
     print('Target:', str(trial['target']).upper())
@@ -269,7 +264,6 @@ def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_dio
     sentence.draw()
     if toggle_photodiode:
         photodiode.draw()
-    win.callOnFlip(sendTrigger, channel='ch166', duration=0.02)  # Trigger for target
     win.flip()
     core.wait(0.5)  # 500 ms
 
@@ -284,7 +278,6 @@ def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_dio
     sentence.draw()
     if toggle_photodiode:
         photodiode.draw()
-    win.callOnFlip(sendTrigger, channel='ch167', duration=0.02)  # Trigger for probe
     win.flip()
     rt0 = time.time()
 
