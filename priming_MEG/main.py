@@ -119,10 +119,10 @@ proceed = keyboard.Keyboard()
 frame_time_ms = win.monitorFramePeriod * 1000
 
 fixation_ON_ms = 300
-fixation_OFF_ms = 300
+fixation_OFF_ms = 0
 
-sent_ON_ms = 300
-sent_OFF_ms = 300
+# sent_ON_ms = 300
+# sent_OFF_ms = 300
 
 """==============================Get Stimuli================================"""
 
@@ -230,7 +230,7 @@ def present_fixation(fixation_time=fixation_ON_ms, fixation_off_time=fixation_OF
 		win.flip()
 
 	stim_time = time.time()
-	# print('fixation onscreen time:', str(stim_time - t0))
+	print('fixation onscreen time:', str(stim_time - t0))
 
 	for i in range(int(fixation_off_time/frame_time)):
 		win.flip()
