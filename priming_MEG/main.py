@@ -1,3 +1,9 @@
+''' Priming of Chinese radicals
+Code is acquired from the NELL Lab at NYU and edited by Helen Hu (fh986@nyu.edu).
+Last edited: April, 2025
+This experiment was designed to test phonetic and semantic priming effects with Chinese radicals.
+'''
+
 import time
 
 from psychopy import core, visual, event, data
@@ -13,17 +19,18 @@ import random
 import os
 import re
 
-ROOT = '/Users/meguser/Desktop/Experiments/Stefan/MEG_2/' #'/Users/amilleahrodriguez/' #'/Users/alr664/Desktop' #
+# acquire the path of the current codes
+ROOT = os.path.dirname(os.path.abspath(__file__))
 
 stimuli_select = input("which experiment (practice, experiment): ")
 participant_name = input("participant: ")
 
 simulation_time = time.time()
-debug = False
+debug = True #False
 toggle_diode = True
 send_triggers = True
 simulate_responses = False
-num_blocks = 7
+num_blocks = 5
 
 # exp_info = {'Participant:':"test0",
 # 			'Exp_type': ['practice', 'experiment'],
@@ -55,7 +62,7 @@ if exp_type == "practice":
 elif exp_type == 'experiment':
 	stimuli_fn = 'target_stims.csv'
 
-
+# set up paths for storing data and accessing stimuli
 dir_logs = os.path.join(ROOT, 'logs')
 stimuli_path = os.path.join(ROOT, stimuli_fn)
 
@@ -72,9 +79,9 @@ if not toggle_diode: print("DIODE IS OFF")
 if not send_triggers: print("TRIGGERS IS SET TO OFF")
 if simulate_responses: print("SIMULATED RESPONSES")
 
-setup_text = 'Tenga paciencia mientras preparamos el experimento. Por favor, no presione ningún botón.'
-instruction_text = "Va a ver varias palabras en Español. Pulse la tecla usando el dedo índice izquierdo si ve una palabra que existe en Español. Pulse la tecla usando el dedo medio si ve una palabra que no es una palabra que existe. \n\nPulse qualquier tecla cuando esté listo para comenzar"
-end_text = 'Ha completado el experimento. Por favor, no se mueva mientras tomamos las últimas medidas.'
+setup_text = '請耐心等待，我們正在準備實驗。請不要按下任何按鈕。'
+instruction_text = "您將會看到一系列繁體中文字。三個字為一組（比如：花-草-花）。若第三個字與第一個相同，請用左手食指按下按鍵。若第三個字與第二個字相同，請用中指按下按鍵。\n\n準備好後，請按任意鍵開始。"
+end_text = '您已完成實驗。在我們進行最後測量時，請保持不動。'
 
 setup_proceed_key = ['s']
 instruction_proceed_keys = ['s', '1', '2']
@@ -122,21 +129,37 @@ sent_OFF_ms = 300
 trials = pd.read_csv(stimuli_path)
 trials = shuffle(trials)
 
+# assign probe and correct_resp
+def assign_probe(row):
+    if random.random() < 0.5:
+        row['probe'] = row['prime']
+        row['correct_resp'] = 1  # 1 for prime
+    else:
+        row['probe'] = row['target']
+        row['correct_resp'] = 2  # 2 for target
+    return row
+
+trials = trials.apply(assign_probe, axis=1)
+print(trials)
+
+
 for index, row in trials.iterrows():
-
+	
+	trials.at[index, 'prime'] = row['prime']
 	trials.at[index, 'target'] = row['target']
-	trials.at[index, 'correct_resp'] = row['correct_ans']
+	trials.at[index, 'trial_type'] = row['trial_type']
 	trials.at[index, 'trigger'] = row['trigger']
-	trials.at[index, 'target_type'] = row['target_type']
+	trials.at[index, 'probe'] = row['probe']
+	trials.at[index, 'correct_resp'] = row['correct_resp']
 
-trials['correct_resp'] = trials['correct_resp'].astype(int)
 trials['trigger'] = trials['trigger'].astype(int)
+trials['correct_resp'] = trials['correct_resp'].astype(int)
 
-
-# Assumes that experiment --> number of trials will be divisible by 7
+# Assumes that experiment --> number of trials will be divisible by num_blocks
 if exp_type == 'practice':
 	n_blocks = 1
 elif exp_type == 'experiment':
+	assert len(trials) % num_blocks == 0, f"Number of trials ({len(trials)}) is not divisible by num_blocks ({num_blocks})"
 	n_blocks = num_blocks
 
 # Get the indices of the rows in the DataFrame
@@ -150,6 +173,7 @@ n_trials_per_block = len(trial_indices) // n_blocks
 remainder_trials = len(trial_indices) % n_blocks
 
 # Create blocks to store DataFrames for each block
+# Each item in the list "blocks" will be a data frame containing the information for each randomized trial
 blocks = []
 
 for i, block in enumerate(range(n_blocks)):
@@ -216,7 +240,7 @@ def present_fixation(fixation_time=fixation_ON_ms, fixation_off_time=fixation_OF
 
 # Pause slide is entered and exited by pressing 'p'
 def pause_slide():
-	print("ETNER")
+	print("ENTER")
 	sentence.setText("Please wait a bit...")
 	sentence.draw()
 	win.flip()
@@ -228,45 +252,62 @@ def pause_slide():
 	elif response[0] == 'q':
 		core.quit()
 
-def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_diode, sent_onscreen_ms=sent_ON_ms, sent_offscreen_ms=sent_OFF_ms, frame_time=frame_time_ms):
-	print('Stimulus:', str(trial['target']).upper())
-	countdown_timer = core.CountdownTimer(0)
-	win.callOnFlip(sendTrigger, channel='ch165', duration=0.02)
+def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_diode, frame_time=frame_time_ms):
+    # === 1. Display the PRIME ===
+    print('Prime:', str(trial['prime']).upper())
+    sentence.setText(trial['prime'])
+    sentence.draw()
+    if toggle_photodiode:
+        photodiode.draw()
+    win.callOnFlip(sendTrigger, channel='ch165', duration=0.02)  # Trigger for prime
+    win.flip()
+    core.wait(0.1)  # 100 ms
 
-	target = trial['target']
-	print(target)
+    # === 2. Display the TARGET ===
+    print('Target:', str(trial['target']).upper())
+    sentence.setText(trial['target'])
+    sentence.draw()
+    if toggle_photodiode:
+        photodiode.draw()
+    win.callOnFlip(sendTrigger, channel='ch166', duration=0.02)  # Trigger for target
+    win.flip()
+    core.wait(0.5)  # 500 ms
 
-	sentence.setText(target)
-	sentence.draw()
+    # === 3. Fixation Cross ===
+    fixation.draw()
+    win.flip()
+    core.wait(0.8)  # 800 ms
 
+    # === 4. Display the PROBE and wait for response ===
+    print('Probe:', str(trial['probe']).upper())
+    sentence.setText(trial['probe'])
+    sentence.draw()
+    if toggle_photodiode:
+        photodiode.draw()
+    win.callOnFlip(sendTrigger, channel='ch167', duration=0.02)  # Trigger for probe
+    win.flip()
+    rt0 = time.time()
 
-	if toggle_photodiode:
-		photodiode.draw()
+    # Pause option
+    if event.getKeys('p'):
+        pause_slide()
+        return ("p", time.time() - rt0)
 
-	win.flip()
-	rt0 = time.time()
+    # Simulated response (debug mode)
+    if simulate_responses:
+        if event.getKeys('q'):
+            core.quit()
+        response = str(random.randint(1,2))
+        core.wait(random.uniform(0.5,0.9))
+        return (response, time.time() - rt0)
 
-	#If the slide is paused, the "response" for that trial will be "p"
-	if event.getKeys('p'):
-		pause_slide()
-		return ("p", time.time() - rt0)
+    # Actual participant response
+    response = event.waitKeys(keyList=['1', '2', 'q', 's'])
+    if response[0] == 'q':
+        core.quit()
 
-	if simulate_responses:
-		if event.getKeys('q'):
-			core.quit()
-		response = str(random.randint(1,2))
-		core.wait(random.uniform(0.5,0.9))
-		return (response, time.time() - rt0,)
+    return (response[0], time.time() - rt0)
 
-	else:
-		response = event.waitKeys(keyList=['1', '2', 'q', 's'])
-
-
-
-		if response[0] == 'q':
-			core.quit()
-
-		return (response[0], time.time() - rt0)
 
 def pause_experiment():
     present_text("experiment paused. \n please wait for the experimenter.")
@@ -289,13 +330,13 @@ trial_counter = 0
 for blockNum, block in enumerate(blocks, start=1):
 
 	if blockNum != 1:
-		accuracy = "Ha acertado %d%% de las veces." % (int((total_correct/total_answered)*100))
-		prompt = '\n\n Este es el bloque %s de %s.\n\n Recuerde moverse lo menos posible e intente parpadear lo menos posible cuando avance al siguiente bloque. \n\n Presione cualquier botón para continuar.' % (
+		accuracy = "您的正確率是 %d%%。" % (int((total_correct/total_answered)*100))
+		prompt = '\n\n 這是第 %s 組，一共 %s組。\n\n 請盡量保持不動，也盡量減少眨眼。 \n\n 準備好後，請按任意鍵繼續。' % (
 		    str(blockNum), len(blocks))
 		full_text = accuracy + prompt
 		present_text(full_text)
 	else:
-		prompt = 'Este es el bloque %s de %s.\n\n Recuerde moverse lo menos posible e intente parpadear lo menos posible cuando avance al siguiente bloque. \n\n Presione cualquier botón para continuar.' % (
+		prompt = '這是第 %s 組，一共 %s組。\n\n 請盡量保持不動，也盡量減少眨眼。\n\n 準備好後，請按任意鍵繼續。' % (
 		    str(blockNum), len(blocks))
 		present_text(prompt)
 
@@ -313,20 +354,20 @@ for blockNum, block in enumerate(blocks, start=1):
 
 		if exp_type == "practice":
 			if int(response) == trial['correct_resp']:
-				sentence.setText("¡Correcto!")
+				sentence.setText("正確")
 				sentence.draw()
 
 				win.flip()
 				core.wait(1)
 			elif int(response) == 1 and trial['correct_resp'] == 2:
-				sentence.setText("¡Incorrecto!" + str(" ¡" + trial['target'] + " es una palabra real!"))
+				sentence.setText("錯誤") # + str(" ¡" + trial['target'] + " es una palabra real!"
 				sentence.draw()
 
 				win.flip()
 				core.wait(2)
 
 			elif int(response) == 2 and trial['correct_resp'] == 1:
-				sentence.setText("¡Incorrecto! ¡" + str(trial['target'] + " no es una palabra real!"))
+				sentence.setText("錯誤") #  + str(trial['target'] + " no es una palabra real!"
 				sentence.draw()
 
 				win.flip()
@@ -346,7 +387,7 @@ for blockNum, block in enumerate(blocks, start=1):
 
 
 		if response == str(trial['correct_resp']):
-		    total_correct += 1
+			total_correct += 1
 
 		# core.wait(random.uniform(0.6, 0.8))
 		accuracy = "%d/%d" % (total_correct, total_answered)
@@ -358,7 +399,11 @@ for blockNum, block in enumerate(blocks, start=1):
 		exp.addData('participant', participant_name)
 		exp.addData('stimuli', trial.target)
 		exp.addData('trialNum', trial_counter)
-		exp.addData('target_type', trial['target_type'])
+		exp.addData('prime', trial['prime'])
+		exp.addData('target', trial['target'])
+		exp.addData('probe', trial['probe'])
+		exp.addData('correct_resp', trial['correct_resp'])
+		exp.addData('trial_type', trial['trial_type'])
 		exp.addData('response', response)
 		exp.addData('correct', correct)
 		exp.addData('block', blockNum)
@@ -367,7 +412,7 @@ for blockNum, block in enumerate(blocks, start=1):
 
 		exp.nextEntry()
 
-		core.wait(random.uniform(0.6, 0.8))
+		core.wait(2.5)
 
 # ========== End Experiment ==========
 simulation_time = time.time() - simulation_time

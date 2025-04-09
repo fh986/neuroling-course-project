@@ -1,5 +1,5 @@
-target,target_type,correct_ans,trigger
-fumo,word,2,1
-rudaba,non-word,1,2
-resultó,word,2,1
-remopaste,non-word,1,2
+prime,target,trial_type,trigger
+_,_,practice,1
+_,_,practice,2
+_,_,practice,1
+_,_,practice,2
