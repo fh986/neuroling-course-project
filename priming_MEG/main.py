@@ -27,10 +27,11 @@ participant_name = input("participant: ")
 
 simulation_time = time.time()
 debug = True #False
-toggle_diode = False #True
+toggle_diode = True
 send_triggers = True
 simulate_responses = False
 num_blocks = 5
+debug_rate = 1 #0.0001
 
 # exp_info = {'Participant:':"test0",
 # 			'Exp_type': ['practice', 'experiment'],
@@ -112,7 +113,7 @@ win.mouseVisible = False # hides the mouse
 
 # send inital trigger to reset channels
 win.callOnFlip(sendTrigger, channel='ch161', duration=0.02)
-delay = 600
+# delay = 600
 proceed = keyboard.Keyboard()
 
 """================================Timings=================================="""
@@ -225,10 +226,11 @@ def present_fixation(fixation_time=fixation_ON_s):
     t0 = time.time()
 
     win.flip()  # show fixation
-    core.wait(fixation_time / 1000)  # convert ms to seconds
+    core.wait(0.3 * debug_rate)
+    # core.wait(fixation_time / 1000)  # convert ms to seconds
 
     stim_time = time.time()
-    print('fixation onscreen time:', str(stim_time - t0))
+    print('fixation onscreen time (s):', str(stim_time - t0))
 
 
 
@@ -247,16 +249,20 @@ def pause_slide():
 		core.quit()
 
 def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_diode):
-    # === 1. Display the PRIME ===
+    print('------start of trial------')
+
+	# === 1. Display the PRIME ===
     print('Prime:', str(trial['prime']).upper())
     sentence.setText(trial['prime'])
     sentence.draw()
     if toggle_photodiode:
         photodiode.draw()
-    win.callOnFlip(sendTrigger, channel='ch165', duration=0.02)  # Trigger for prime
-    print('------------')
+    t0 = time.time()
     win.flip()
-    core.wait(0.3)  # 100 ms
+    core.wait(0.1 * debug_rate)  # 100 ms
+    stim_time = time.time()
+    print('PRIME onscreen time (s):', str(stim_time - t0))
+
 
     # === 2. Display the TARGET ===
     print('Target:', str(trial['target']).upper())
@@ -264,13 +270,17 @@ def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_dio
     sentence.draw()
     if toggle_photodiode:
         photodiode.draw()
+    t0 = time.time()
+    win.callOnFlip(sendTrigger, channel='ch165', duration=0.02)  # Trigger for target
     win.flip()
-    core.wait(0.5)  # 500 ms
+    core.wait(0.5 * debug_rate)  # 500 ms
+    stim_time = time.time()
+    print('TARGET onscreen time (s):', str(stim_time - t0))
 
     # === 3. Fixation Cross ===
     fixation.draw()
     win.flip()
-    core.wait(0.8)  # 800 ms
+    core.wait(0.8 * debug_rate)  # 800 ms
 
     # === 4. Display the PROBE and wait for response ===
     print('Probe:', str(trial['probe']).upper())
@@ -291,7 +301,7 @@ def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_dio
         if event.getKeys('q'):
             core.quit()
         response = str(random.randint(1,2))
-        core.wait(random.uniform(0.5,0.9))
+        core.wait(random.uniform(0.5,0.9) * debug_rate)
         return (response, time.time() - rt0)
 
     # Actual participant response
@@ -351,20 +361,20 @@ for blockNum, block in enumerate(blocks, start=1):
 				sentence.draw()
 
 				win.flip()
-				core.wait(1)
+				core.wait(1 * debug_rate)
 			elif int(response) == 1 and trial['correct_resp'] == 2:
 				sentence.setText("錯誤") # + str(" ¡" + trial['target'] + " es una palabra real!"
 				sentence.draw()
 
 				win.flip()
-				core.wait(2)
+				core.wait(2 * debug_rate)
 
 			elif int(response) == 2 and trial['correct_resp'] == 1:
 				sentence.setText("錯誤") #  + str(trial['target'] + " no es una palabra real!"
 				sentence.draw()
 
 				win.flip()
-				core.wait(2)
+				core.wait(2 * debug_rate)
 
 		# present_sentence(trial, trialNum)
 		#
@@ -405,7 +415,7 @@ for blockNum, block in enumerate(blocks, start=1):
 
 		exp.nextEntry()
 
-		core.wait(2.5)
+		core.wait(2.5 * debug_rate)
 
 # ========== End Experiment ==========
 simulation_time = time.time() - simulation_time
