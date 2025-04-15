@@ -1,0 +1,6 @@
+﻿participant,stimuli,trialNum,prime,target,probe,correct_resp,trial_type,response,correct,block,reaction_time,trigger,
+tt,草,1,花,草,草,2,practice,1,False,1,1.2634518146514893,1,
+tt,我,2,你,我,你,1,practice,2,False,1,0.8155510425567627,1,
+tt,木,3,樹,木,樹,1,practice,1,True,1,0.9651472568511963,1,
+tt,小,4,大,小,大,1,practice,1,True,1,0.8441569805145264,1,
+tt,矮,5,高,矮,高,1,practice,1,True,1,0.7714200019836426,1,
