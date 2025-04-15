@@ -215,7 +215,7 @@ slides.practicetrial = slide({
 
     // calculate percentage correct in this round
     percentage = Math.round((exp.feedback_numcorrect / exp.feedback_numtrials) * 100);
-    $("#percentage").html("You got " + percentage + "% correct.");
+    $("#percentage").html(percentage + "% 正確.");
    }
   });
 

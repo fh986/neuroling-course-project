@@ -47,8 +47,10 @@
 
   <div class="slide" id="consent" >
     <br>
-    <p>歡迎！您即將參與一個關於繁體中文閱讀的實驗。實驗時長約為20分鐘。本實驗的參與者必須熟練讀寫繁體字。如果您的正確率過低，您將不會獲得報酬。 </p>
-    <p>請閱讀以下的同意書。當您準備好後，請按下方“開始”按鍵。</p>
+    <div style="font-size:20">
+      <p>歡迎！您即將參與一個關於繁體中文閱讀的實驗。實驗時長約為20分鐘。本實驗的參與者必須熟練讀寫繁體字。如果您的正確率過低，您將不會獲得報酬。 </p>
+      <p>請閱讀以下的同意書。當您準備好後，請按下方“開始”按鍵。</p>
+    </div>
 
     <div style="font-size:15">
       <div class="cntr">
@@ -80,12 +82,12 @@
     </div>
 
 <!--     <p id="cocolab">Stanford ALPS Lab</p> -->
-      <p id="instruct-text"> 此實驗將耗時約20分鐘。 <br> <br>
+      <p id="instruct-text" style="font-size:20">此實驗將耗時約20分鐘。 <br> <br>
         你將閱讀中文字並對其作出反應。在每一個試次中，你會依序看到兩個中文字，例如：“花” 和 “草”。接著，你會再看到其中一個字（也就是 “花” 或 “草” 其中之一）。
         你的任務是判斷這個最後出現的字，是否與第一個或第二個字相同。也就是說：<br>
       </p>
-      <p id="instruct-text">
-        <ul>
+      <p id="instruct-text" style="font-size:20">
+        <ul style="font-size:20">
           <li> <b> 如果你看見 花 - 草 - 花 </b></li>
           <p> 最後一個字與第一個字相同 <br>
           <b> 請按“f”</b> 表示第三個字與第一個字相同 </p>
@@ -94,10 +96,10 @@
           <b> 請按“j”</b> 表示第三個字與第一個字相同 </p>
         </ul>
     </p>
-    <p id="instruct-text">
+    <p id="instruct-text" style="font-size:20">
       請記住，最後出現的字一定會和你先前看到的第一個或第二個字相同。請盡可能快速地作答，同時確保正確性！<br><br> </p>
 
-    <div class="cntr">
+    <div class="cntr" style="font-size:20">
       <p> 請按“開始練習”來嘗試一些練習題！ <br> </p>
 
       <button id="start_practice" type="button" >開始練習</button>
@@ -143,10 +145,10 @@
       <p style="font-size:40"><b>正式實驗</b></p>
     </div>
 
-    <p>您即將開始正式實驗。接下來的試次將與練習中的題目完全相同。</p>
+    <p style="font-size:20">您即將開始正式實驗。接下來的試次將與練習中的題目完全相同。</p>
     
-    <p>請記住：</p>
-    <ul>
+    <p style="font-size:20">請記住：</p>
+    <ul style="font-size:20">
       <li> 請將雙手放在鍵盤上，左手準備按“f”，右手準備按“j”。 </li>
       <li> 如果最後一個字與第一個字相同，請按 “f”。 </li>
       <li> 如果最後一個字與第二個字相同，請按 “j”。 </li>
@@ -184,55 +186,56 @@
 
       <p>Prolific ID:*  <input type="text" id="prolific_ID"/></p>
 
-      <p>Gender:*
+      <p>性別:*
         <select id="gender">
           <label><option value=""/></label>
-          <label><option value="Male"/>Male</label>
-          <label><option value="Female"/>Female</label>
-          <label><option value="Nonbinary"/>Nonbinary</label>
-          <label><option value="Other"/>Other</label>
+          <label><option value="Male"/>男性</label>
+          <label><option value="Female"/>女性</label>
+          <label><option value="Nonbinary"/>非二元性別</label>
+          <label><option value="Other"/>其他</label>
         </select>
       </p>
 
-      <p>Age:* <input type="text" id="age"/></p>
+      <p>年齡:* <input type="text" id="age"/></p>
 
-      <p>Please indicate your highest level of educaation:*
+      <p>請選擇您的最高學歷:*
         <select id="education">
           <label><option value="-1"/></label>
-          <label><option value="0"/>Less than high school</label>
-          <label><option value="1"/>High school</label>
-          <label><option value="2"/>Some years of university</label>
-          <label><option value="3"/>Bachelor's degree</label>
-          <label><option value="4"/>Graduate degree</label>
+          <label><option value="0"/>未完成高中</label>
+          <label><option value="1"/>高中學歷</label>
+          <label><option value="2"/>部分大學學程</label>
+          <label><option value="3"/>學士學位</label>
+          <label><option value="4"/>研究所學位</label>
         </select>
       </p>
 
 
-      <p>Do you have any vision problems?* </p>
-      <label><input type="radio"  name="assess" value="No"/>No</label>
-      <label><input type="radio"  name="assess" value="Yes"/>Yes</label>
+      <p>您是否有任何視力問題* </p>
+      <label><input type="radio"  name="assess" value="No"/>否</label>
+      <label><input type="radio"  name="assess" value="Yes"/>是</label>
 
       <br> <br>
-      <p>Please indicate the number of years and months you spent in each linguistic environment:*</p>
-      <p>A country where Chinese is spoken: <input type="text" id="country"/></p>
-      <p>A family where Chinese is spoken: <input type="text" id="family"/></p>
-      <p>A school/work environment where Chinese is spoken: <input type="text" id="schoolwork"/></p>
+      <p>請填寫您在各種語言環境中所待的年數:*</p>
+      <p>以中文為主要語言的國家: <input type="text" id="country"/></p>
+      <p>以中文為主要語言的家庭: <input type="text" id="family"/></p>
+      <p>以中文為主要語言的學校或工作環境: <input type="text" id="schoolwork_spoken"/></p>
+      <p>使用繁體字的學校或工作環境 <input type="text" id="schoolwork_written"/></p>
       <br> <br>
 
-      <p>Please list all language you know in order of acquisition (your native language first):* <input type="text" id="otherLanguage"/></p>
+      <p>請依照學習順序列出您會的語言（母語列在最前）:* <input type="text" id="otherLanguage"/></p>
 
 
-      <p>Have you encountered any problems with the study?</p>
+      <p>您在實驗中是否遇到任何問題？</p>
       <textarea id="problems" rows="2" cols="50"></textarea>
 
-      <p>Do you have any comments on the study? </p>
+      <p>您對本研究有任何意見嗎？ </p>
       <textarea id="comments" rows="3" cols="50"></textarea>
       <br/>
 
       <p class="err2" style="color:red">請回答必答問題。</p>
 
       <br>
-      <button onclick="_s.submit()">Submit</button>
+      <button onclick="_s.submit()">提交</button>
       <br><br>
         </div>
           </div>

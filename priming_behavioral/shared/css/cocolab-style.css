@@ -34,7 +34,7 @@ table {
   padding-right: 20px;
   /* Background and font */
   background-color: transparent;
-  font-size: 20px;
+  font-size: 40px; /* was 20 px */
 }
 
 
