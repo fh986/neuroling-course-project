@@ -4,7 +4,7 @@ The code in this folder is a javascript experiment for a visual priming matching
 
 To run the code locally, double click the *index.html* file. This should open the experiment on a local browser.
 
-The code is online via GitHub Page at: https://fh986.github.io/neuroling-course-project/priming/index.html
+The code is online via GitHub Page at: https://fh986.github.io/neuroling-course-project/priming_behavioral/index.html
 
 This experiment is formatted to look like the MEG experiments we run in the lab. However, this script is not intended to be run on the MEG as it contains none of the MEG commands.
 
