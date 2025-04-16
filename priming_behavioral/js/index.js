@@ -515,6 +515,8 @@ function init() {
   // 'objecttrial', 'break',
   // 'objecttrial', 'break',
   'objecttrial', 'break',
+  'objecttrial', 'break',
+  'objecttrial', 'break',
   'objecttrial', 'subj_info', 'thanks']; // "objecttrial1", "break1",
 
   // two variables that will track participants % of correct repsonses
@@ -526,7 +528,7 @@ function init() {
   //make corresponding slides:
   exp.slides = make_slides(exp);
 
-  exp.nQs = 200//1404;
+  exp.nQs = 180;
   // utils.get_exp_length(); //this does not work if there are stacks of stims (but does work for an experiment with this structure)
                     //relies on structure and slides being defined
   $(".nQs").html(exp.nQs);
