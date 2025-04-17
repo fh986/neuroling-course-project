@@ -386,11 +386,11 @@ slides.practicetrial = slide({
         age : $("#age").val(),
         education : $("#education").val(),
         assess : $('input[name="assess"]:checked').val(),
-        spanish_country_years : $("#country").val(),
-        spanish_family_years : $("#family").val(),
-        spanish_schhol_work_years : $("#schoolwork").val(),
+        chinese_country_years : $("#country").val(),
+        chinese_family_years : $("#family").val(),
+        chinese_school_work_years_spoken : $("#schoolwork_spoken").val(),
+        chinese_school_work_years_written : $("#schoolwork_written").val(),
         otherLanguage : $("#otherLanguage").val(),
-        culture : $('#culture').val(),
         problems: $("#problems").val(),
         comments : $("#comments").val()
       };
@@ -402,9 +402,10 @@ slides.practicetrial = slide({
         exp.subj_data.age != "" &
         exp.subj_data.education != "" &
         exp.subj_data.assess != "" &
-        exp.subj_data.spanish_country_years != "" &
-        exp.subj_data.spanish_family_years != "" &
-        exp.subj_data.spanish_schhol_work_years != "" &
+        exp.subj_data.chinese_country_years != "" &
+        exp.subj_data.chinese_family_years != "" &
+        exp.subj_data.chinese_school_work_years_spoken != "" &
+        exp.subj_data.chinese_school_work_years_written != "" &
         exp.subj_data.otherLanguage != "" &
         exp.subj_data.culture != "") {
         $(".err2").hide();
