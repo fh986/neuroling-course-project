@@ -14,9 +14,9 @@ and then call on the function in the script below
 */
 
 fixationCrossTime1 = 300
-primeTime = 100
-targetTime = 500
-fixationCrossTime2 = 800
+primeTime = 300
+targetTime = 300
+fixationCrossTime2 = 300
 
 crossStimTime = 300
 stimCrossTime = 0
