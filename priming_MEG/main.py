@@ -259,7 +259,7 @@ def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_dio
         photodiode.draw()
     t0 = time.time()
     win.flip()
-    core.wait(0.1 * debug_rate)  # 100 ms
+    core.wait(0.3 * debug_rate)  # 300 ms
     stim_time = time.time()
     print('PRIME onscreen time (s):', str(stim_time - t0))
 
@@ -273,14 +273,14 @@ def trial_slide(trial, send_triggers=send_triggers, toggle_photodiode=toggle_dio
     t0 = time.time()
     win.callOnFlip(sendTrigger, channel='ch165', duration=0.02)  # Trigger for target
     win.flip()
-    core.wait(0.5 * debug_rate)  # 500 ms
+    core.wait(0.3 * debug_rate)  # 300 ms
     stim_time = time.time()
     print('TARGET onscreen time (s):', str(stim_time - t0))
 
     # === 3. Fixation Cross ===
     fixation.draw()
     win.flip()
-    core.wait(0.8 * debug_rate)  # 800 ms
+    core.wait(0.3 * debug_rate)  # 300 ms
 
     # === 4. Display the PROBE and wait for response ===
     print('Probe:', str(trial['probe']).upper())
